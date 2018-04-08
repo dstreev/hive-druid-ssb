@@ -2,9 +2,9 @@
 
 SCALE=${1:-2}
 HS2=${2:-localhost:10000}
-DRUID_HOST=${3:-$(hostname)}
-DRUID_USERNAME=${4:-druid}
-DRUID_PASSWORD=${5:-password}
+DRUID_META_HOST=${3:-$(hostname)}
+DRUID_META_USERNAME=${4:-druid}
+DRUID_META_PASSWORD=${5:-password}
 BEELINE_RAW="beeline -u jdbc:hive2://$HS2/ssb_${SCALE}_raw"
 BEELINE_ORC="beeline -u jdbc:hive2://$HS2/ssb_${SCALE}_flat_orc"
 
