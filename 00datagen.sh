@@ -6,9 +6,9 @@ DRUID_META_HOST=${3:-$(hostname)}
 DRUID_META_USERNAME=${4:-druid}
 DRUID_META_PASSWORD=${5:-password}
 HIVE_USER=${6:-$USER}
-HIVE_PASSWORD=${7:-hortonworks}
-BEELINE_RAW="beeline -n $HIVE_USER -p $HIVE_PASSWORD -u jdbc:hive2://$HS2/ssb_${SCALE}_raw"
-BEELINE_ORC="beeline -n $HIVE_USER -p $HIVE_PASSWORD -u jdbc:hive2://$HS2/ssb_${SCALE}_flat_orc"
+HIVE_PASSWORD_FILE=${7:-.hive_password}
+BEELINE_RAW="beeline -n $HIVE_USER -w $HIVE_PASSWORD_FILE -u jdbc:hive2://$HS2/ssb_${SCALE}_raw"
+BEELINE_ORC="beeline -n $HIVE_USER -w $HIVE_PASSWORD_FILE -u jdbc:hive2://$HS2/ssb_${SCALE}_flat_orc"
 
 # Pre-flight checks.
 for f in gcc javac mvn; do
