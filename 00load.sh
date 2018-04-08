@@ -7,7 +7,7 @@ DRUID_META_USERNAME=${4:-druid}
 DRUID_META_PASSWORD=${5:-password}
 DRUID_BROKER_HOST=${5:-localhost}
 DRUID_COORD_HOST=${5:-localhost}
-HIVE_USER=${$6:-$USER}
+HIVE_USER=${6:-$USER}
 HIVE_PASSWORD=${7:-hortonworks}
 BEELINE="beeline -n $HIVE_USER -p $HIVE_PASSWORD -u jdbc:hive2://$HS2/default"
 
