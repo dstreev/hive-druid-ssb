@@ -2,7 +2,7 @@
 
 SCALE=${1:-2}
 HS2=${2:-localhost:10000}
-DRUID_META_HOST=${3:-$(hostname)}
+DRUID_META_HOST=${3:-localhost}
 DRUID_META_USERNAME=${4:-druid}
 DRUID_META_PASSWORD=${5:-password}
 DRUID_BROKER_HOST=${6:-localhost}
