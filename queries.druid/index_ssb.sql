@@ -9,7 +9,7 @@
 -- set hive.tez.container.size=1024;
 -- set hive.druid.passiveWaitTimeMs=180000;
 
-CREATE DATABASE IF NOT EXIST druid_ssb;
+CREATE DATABASE IF NOT EXISTS druid_ssb;
 USE druid_ssb;
 
 CREATE TABLE ssb_druid
