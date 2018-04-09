@@ -1,13 +1,13 @@
 -- set hive.druid.metadata.username=${DRUID_META_USERNAME};
 -- set hive.druid.metadata.password=${DRUID_META_PASSWORD};
 -- set hive.druid.metadata.uri=jdbc:mysql://${DRUID_META_HOST}/druid;
-set hive.druid.indexer.partition.size.max=1000000;
-set hive.druid.indexer.memory.rownum.max=100000;
+-- set hive.druid.indexer.partition.size.max=1000000;
+-- set hive.druid.indexer.memory.rownum.max=100000;
 -- set hive.druid.broker.address.default=${DRUID_BROKER_HOST}:8082;
 -- set hive.druid.coordinator.address.default=${DRUID_COORD_HOST}:8081;
 -- set hive.druid.storage.storageDirectory=/apps/hive/warehouse;
-set hive.tez.container.size=1024;
-set hive.druid.passiveWaitTimeMs=180000;
+-- set hive.tez.container.size=1024;
+-- set hive.druid.passiveWaitTimeMs=180000;
 
 CREATE DATABASE IF NOT EXIST druid_ssb;
 USE druid_ssb;
