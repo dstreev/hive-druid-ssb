@@ -20,7 +20,7 @@ TBLPROPERTIES (
   "druid.query.granularity" = "DAY")
 AS
 SELECT
-  cast(d_year || '-' || d_monthnuminyear || '-' || d_daynuminmonth as timestamp) as `__time`,
+  cast(d_year || "-" || d_monthnuminyear || "-" || d_daynuminmonth as timestamp) as "__time",
   cast(c_city as string) c_city,
   cast(c_nation as string) c_nation,
   cast(c_region as string) c_region,
