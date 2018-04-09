@@ -1,3 +1,5 @@
+USE druid_ssb;
+
 select
   sum(discounted_price)
 from
@@ -170,4 +172,3 @@ where
   p_category = 'MFGR#14'
 group by
   d_year, s_city, p_brand1;
-
