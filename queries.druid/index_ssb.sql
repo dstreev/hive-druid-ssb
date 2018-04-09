@@ -40,8 +40,8 @@ SELECT
   lo_extendedprice * lo_discount discounted_price,
   lo_revenue - lo_supplycost net_revenue
 FROM
-  ssb_${hivevar:custom.var.SCALE}_flat_orc.customer, ssb_${hivevar:custom.var.SCALE}_flat_orc.dates, ssb_${custom.var.SCALE}_flat_orc.lineorder,
-  ssb_${hivevar:custom.var.SCALE}_flat_orc.part, ssb_${hivevar:custom.var.SCALE}_flat_orc.supplier
+  ssb_5_flat_orc.customer, ssb_5_flat_orc.dates, ssb_5_flat_orc.lineorder,
+  ssb_5_flat_orc.part, ssb_5_flat_orc.supplier
 where
   lo_orderdate = d_datekey and lo_partkey = p_partkey
   and lo_suppkey = s_suppkey and lo_custkey = c_custkey;
