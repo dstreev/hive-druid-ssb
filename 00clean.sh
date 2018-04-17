@@ -3,7 +3,7 @@
 . ./init-env.sh $@
 . ./check-env.sh
 
-hdfs dfs -rmr -skipTrash /tmp/ssb/${SCALE}
+hdfs dfs -rm- r -skipTrash /tmp/ssb/${SCALE}
 
 BEELINE_RAW="beeline -n ${HIVE_USER} -w ${HIVE_PASSWORD_FILE} -u '${HS2}'"
 
