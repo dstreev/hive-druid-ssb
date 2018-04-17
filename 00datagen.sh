@@ -23,13 +23,14 @@ if [ $? -ne 0 ];  then
 	echo "Building the data generator"
 	pushd ssb-gen
 	make clean all
+	popd
 
 	echo "Generate the data at scale ${SCALE}"
-	hadoop jar target/ssb-gen-1.0-SNAPSHOT.jar -d /tmp/ssb/${SCALE}/ -s ${SCALE}
+	hadoop jar ssb-gen/target/ssb-gen-1.0-SNAPSHOT.jar -d /tmp/ssb/${SCALE}/ -s ${SCALE}
 	exec ${BEELINE_RAW} -e "create database ssb_${SCALE}_raw; create database ssb_${SCALE}_flat_orc;"
-	exec ${BEELINE_RAW} --hivevar LOCATION=/tmp/ssb/${SCALE} -f ddl/text.sql
-	exec ${BEELINE_ORC} --hivevar SOURCE=ssb_${SCALE}_raw -f ddl/orc_flat.sql
-	exec ${BEELINE_ORC} --hivevar SOURCE=ssb_${SCALE}_raw -f ddl/analyze_flat.sql
+	exec ${BEELINE_RAW} --hivevar LOCATION=/tmp/ssb/${SCALE} -f ssb-gen/ddl/text.sql
+	exec ${BEELINE_ORC} --hivevar SOURCE=ssb_${SCALE}_raw -f ssb-gen/ddl/orc_flat.sql
+	exec ${BEELINE_ORC} --hivevar SOURCE=ssb_${SCALE}_raw -f ssb-gen/ddl/analyze_flat.sql
 else
 	echo "SSB Data at scale ${SCALE}, already loaded."
 fi
