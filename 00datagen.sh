@@ -3,8 +3,8 @@
 . ./init-env.sh $@
 . ./check-env.sh
 
-BEELINE_RAW="beeline -n $HIVE_USER -w $HIVE_PASSWORD_FILE -u '${HS2}/ssb_${SCALE}_raw'"
-BEELINE_ORC="beeline -n $HIVE_USER -w $HIVE_PASSWORD_FILE -u '${HS2}/ssb_${SCALE}_flat_orc'"
+BEELINE_RAW="beeline -n ${HIVE_USER} -w ${HIVE_PASSWORD_FILE} -u '${HS2}/ssb_${SCALE}_raw'"
+BEELINE_ORC="beeline -n ${HIVE_USER} -w ${HIVE_PASSWORD_FILE} -u '${HS2}/ssb_${SCALE}_flat_orc'"
 
 # Pre-flight checks.
 for f in gcc javac mvn; do
@@ -24,7 +24,7 @@ if [ $? -ne 0 ];  then
 	pushd ssb-gen
 	make clean all
 
-	echo "Generate the data at scale $SCALE"
+	echo "Generate the data at scale ${SCALE}"
 	hadoop jar target/ssb-gen-1.0-SNAPSHOT.jar -d /tmp/ssb/${SCALE}/ -s ${SCALE}
 	exec ${BEELINE_RAW} -e "create database ssb_${SCALE}_raw; create database ssb_${SCALE}_flat_orc;"
 	exec ${BEELINE_RAW} --hivevar LOCATION=/tmp/ssb/${SCALE} -f ddl/text.sql
