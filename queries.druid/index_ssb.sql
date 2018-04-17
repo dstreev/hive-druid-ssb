@@ -1,26 +1,46 @@
 -- set hive.druid.metadata.username=${DRUID_META_USERNAME};
 -- set hive.druid.metadata.password=${DRUID_META_PASSWORD};
 -- set hive.druid.metadata.uri=jdbc:mysql://${DRUID_META_HOST}/druid;
--- set hive.druid.indexer.partition.size.max=1000000;
--- set hive.druid.indexer.memory.rownum.max=100000;
+set hive.druid.indexer.partition.size.max=1000000;
+set hive.druid.indexer.memory.rownum.max=100000;
 -- set hive.druid.broker.address.default=${DRUID_BROKER_HOST}:8082;
 -- set hive.druid.coordinator.address.default=${DRUID_COORD_HOST}:8081;
--- set hive.druid.storage.storageDirectory=/apps/hive/warehouse;
+set hive.druid.storage.storageDirectory=/apps/hive/warehouse;
 -- set hive.tez.container.size=1024;
--- set hive.druid.passiveWaitTimeMs=180000;
+set hive.druid.passiveWaitTimeMs=180000;
 
 CREATE DATABASE IF NOT EXISTS druid_ssb;
 USE druid_ssb;
 
-CREATE TABLE ssb_druid
+CREATE TABLE ssb_druid (
+  `__time` timestamp,
+  c_city string,
+  c_nation string,
+  c_region string,
+  d_weeknumuninyear string,
+  d_year string,
+  d_yearmonth string,
+  d_yearmonthnum string,
+  lo_discount string,
+  lo_quantity string,
+  p_brand1 string,
+  p_category string,
+  p_mfgr string,
+  s_city string,
+  s_nation string,
+  s_region string,
+  lo_revenue double,
+  discounted_price double,
+  net_revenue double
+)
 STORED BY 'org.apache.hadoop.hive.druid.DruidStorageHandler'
 TBLPROPERTIES (
-  "druid.datasource" = "ssb_druid",
   "druid.segment.granularity" = "MONTH",
-  "druid.query.granularity" = "DAY")
-AS
+  "druid.query.granularity" = "DAY");
+
+INSERT OVERWRITE TABLE ssb_druid
 SELECT
-  cast(CONCAT(d_year,'-',d_monthnuminyear,'-',d_daynuminmonth) as timestamp) __time,
+  cast(CONCAT(d_year,'-',d_monthnuminyear,'-',d_daynuminmonth) as timestamp) as `__time`,
   cast(c_city as string) c_city,
   cast(c_nation as string) c_nation,
   cast(c_region as string) c_region,
@@ -40,8 +60,8 @@ SELECT
   lo_extendedprice * lo_discount discounted_price,
   lo_revenue - lo_supplycost net_revenue
 FROM
-  ssb_5_flat_orc.customer, ssb_5_flat_orc.dates, ssb_5_flat_orc.lineorder,
-  ssb_5_flat_orc.part, ssb_5_flat_orc.supplier
+  ssb_${SCALE}_flat_orc.customer, ssb_${SCALE}_flat_orc.dates, ssb_${SCALE}_flat_orc.lineorder,
+  ssb_${SCALE}_flat_orc.part, ssb_${SCALE}_flat_orc.supplier
 where
   lo_orderdate = d_datekey and lo_partkey = p_partkey
   and lo_suppkey = s_suppkey and lo_custkey = c_custkey;

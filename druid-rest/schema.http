@@ -1,0 +1,20 @@
+# Status
+POST http://{{host}}:{{port}}/api/v1/clusters/{{cluster_name}}/requests
+Authorization: Basic {{base64_credentials}}
+X-Requested-By: ambari
+Content-Type: application/text
+
+{
+  "RequestInfo": {
+    "context": "Refresh YARN Capacity Scheduler",
+    "command": "REFRESHQUEUES",
+    "parameters/forceRefreshConfigTags": "capacity-scheduler"
+  },
+  "Requests/resource_filters": [
+    {
+      "service_name": "YARN",
+      "component_name": "RESOURCEMANAGER",
+      "hosts": "{{rm_host}}"
+    }
+  ]
+}

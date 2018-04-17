@@ -1,0 +1,3 @@
+# Submit and ingestion task to the 'overlord'.
+#curl -X 'POST' -H 'Content-Type:application/json' -d @quickstart/wikiticker-index.json localhost:8090/druid/indexer/v1/task
+

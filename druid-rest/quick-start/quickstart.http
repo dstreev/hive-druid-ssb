@@ -1,0 +1,16 @@
+# Submit an ingest task to the 'overlord'.
+# Note:
+#   You'll need to copy the referenced data file the /tmp on HDFS.
+POST {{druid-overlord-host-url}}/druid/indexer/v1/task
+Content-Type: application/json
+
+< support/wikiticker-index.json
+###
+
+# Submit a Query to a Broker
+POST {{druid-broker-host-url}}/druid/v2/?pretty
+Content-Type: application/json
+
+< support/wikiticker-top-pages.json
+
+###
