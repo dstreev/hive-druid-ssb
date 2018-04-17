@@ -3,8 +3,8 @@
 . ./init-env.sh $@
 . ./check-env.sh
 
-BEELINE_RAW="beeline -n $HIVE_USER -w $HIVE_PASSWORD_FILE -u jdbc:hive2://${HS2}/ssb_${SCALE}_raw"
-BEELINE_ORC="beeline -n $HIVE_USER -w $HIVE_PASSWORD_FILE -u jdbc:hive2://${HS2}/ssb_${SCALE}_flat_orc"
+BEELINE_RAW="beeline -n $HIVE_USER -w $HIVE_PASSWORD_FILE -u "${HS2}/ssb_${SCALE}_raw"
+BEELINE_ORC="beeline -n $HIVE_USER -w $HIVE_PASSWORD_FILE -u "${HS2}/ssb_${SCALE}_flat_orc"
 
 # Pre-flight checks.
 for f in gcc javac mvn; do
