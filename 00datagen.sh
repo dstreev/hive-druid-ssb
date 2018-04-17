@@ -18,6 +18,8 @@ echo "	HS2:${HS2}"
 echo "	DRUID_META_HOST:${DRUID_META_HOST}"
 echo "----------------------------------------"
 
+exit -1
+
 BEELINE_RAW="beeline -n $HIVE_USER -w $HIVE_PASSWORD_FILE -u jdbc:hive2://${HS2}/ssb_${SCALE}_raw"
 BEELINE_ORC="beeline -n $HIVE_USER -w $HIVE_PASSWORD_FILE -u jdbc:hive2://${HS2}/ssb_${SCALE}_flat_orc"
 
