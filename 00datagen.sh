@@ -1,22 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 . ./init-env.sh $@
-
-# SCALE=${1:-5}
-# HS2=${2:-localhost:10000}
-# DRUID_META_HOST=${3:-$(hostname)}
-# DRUID_META_USERNAME=${4:-druid}
-# DRUID_META_PASSWORD=${5:-password}
-# HIVE_USER=${6:-$USER}
-# HIVE_PASSWORD_FILE=${7:-.hive_password}
-echo "----------------------------------------"
-echo "Check env: "
-echo "	SCALE:${SCALE}"
-echo "	HIVE_USER:${HIVE_USER}"
-echo "	HIVE_PASSWORD_FILE:${HIVE_PASSWORD_FILE}"
-echo "	HS2:${HS2}"
-echo "	DRUID_META_HOST:${DRUID_META_HOST}"
-echo "----------------------------------------"
+. ./check-env.sh
 
 BEELINE_RAW="beeline -n $HIVE_USER -w $HIVE_PASSWORD_FILE -u jdbc:hive2://${HS2}/ssb_${SCALE}_raw"
 BEELINE_ORC="beeline -n $HIVE_USER -w $HIVE_PASSWORD_FILE -u jdbc:hive2://${HS2}/ssb_${SCALE}_flat_orc"
