@@ -69,7 +69,7 @@ STORED AS ORC;
 INSERT OVERWRITE TABLE ${SOURCE}.consolidated
 SELECT
   cast(CONCAT(d_year,'-',d_monthnuminyear,'-',d_daynuminmonth) as timestamp) as `__time`,
-  cast(CONCAT(d_year,'-',d_monthnuminyear)) as `_month`,
+  cast(CONCAT(d_year,'-',d_monthnuminyear) as STRING) as `_month`,
   cast(c_city as STRING) c_city,
   cast(c_nation as STRING) c_nation,
   cast(c_region as STRING) c_region,
