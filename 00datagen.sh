@@ -27,7 +27,7 @@ if [ $? -ne 0 ];  then
 	echo "Generate the data at scale ${SCALE}"
 	hadoop jar target/ssb-gen-1.0-SNAPSHOT.jar -d /tmp/ssb/${SCALE}/ -s ${SCALE}
 	popd
-	${BEELINE} -e "create database ssb_${SCALE}_raw; create database ssb_${SCALE}_flat_orc;"
+	${BEELINE} -e "create database ssb_${SCALE}_raw; create database ssb_${SCALE}_flat_orc;create database ssb_${SCALE}_orc;"
 	echo "-------------------"
 	echo "   Define RAW Tables"
 	echo "-------------------"
