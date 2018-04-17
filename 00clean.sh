@@ -5,7 +5,7 @@
 
 hdfs dfs -rmr -skipTrash /tmp/ssb/${SCALE}
 
-BEELINE_RAW="beeline -n ${HIVE_USER} -w ${HIVE_PASSWORD_FILE} -u "${HS2}"
+BEELINE_RAW='beeline -n ${HIVE_USER} -w ${HIVE_PASSWORD_FILE} -u "${HS2}"'
 
 echo ${BELLINE_RAW}
 
