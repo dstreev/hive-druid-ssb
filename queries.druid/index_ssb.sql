@@ -9,8 +9,8 @@ set hive.druid.storage.storageDirectory=/apps/hive/warehouse;
 -- set hive.tez.container.size=1024;
 set hive.druid.passiveWaitTimeMs=180000;
 
-CREATE DATABASE IF NOT EXISTS druid_ssb_${SCALE};
-USE druid_ssb_${SCALE};
+CREATE DATABASE IF NOT EXISTS druid_ssb_${SCALE}_${TYPE};
+USE druid_ssb_${SCALE}_${TYPE};
 
 CREATE TABLE ssb_druid (
   `__time` timestamp,
@@ -60,8 +60,8 @@ SELECT
   lo_extendedprice * lo_discount discounted_price,
   lo_revenue - lo_supplycost net_revenue
 FROM
-  ssb_${SCALE}_flat_orc.customer, ssb_${SCALE}_flat_orc.dates, ssb_${SCALE}_flat_orc.lineorder,
-  ssb_${SCALE}_flat_orc.part, ssb_${SCALE}_flat_orc.supplier
+  ${SOURCE}.customer, ${SOURCE}.dates, ${SOURCE}.lineorder,
+  ${SOURCE}.part, ${SOURCE}.supplier
 where
   lo_orderdate = d_datekey and lo_partkey = p_partkey
   and lo_suppkey = s_suppkey and lo_custkey = c_custkey;

@@ -3,8 +3,8 @@
 . ./init-env.sh $@
 . ./check-env.sh
 
-BEELINE_RAW="beeline -n ${HIVE_USER} -w ${HIVE_PASSWORD_FILE} -u '${HS2}/ssb_${SCALE}_raw'"
-BEELINE_ORC="beeline -n ${HIVE_USER} -w ${HIVE_PASSWORD_FILE} -u '${HS2}/ssb_${SCALE}_flat_orc'"
+BEELINE="beeline -n ${HIVE_USER} -w ${HIVE_PASSWORD_FILE} -u '${HS2}'"
+# BEELINE_ORC="beeline -n ${HIVE_USER} -w ${HIVE_PASSWORD_FILE} -u '${HS2}/ssb_${SCALE}_flat_orc'"
 
 # Pre-flight checks.
 for f in gcc javac mvn; do
@@ -27,10 +27,27 @@ if [ $? -ne 0 ];  then
 	echo "Generate the data at scale ${SCALE}"
 	hadoop jar target/ssb-gen-1.0-SNAPSHOT.jar -d /tmp/ssb/${SCALE}/ -s ${SCALE}
 	popd
-	exec ${BEELINE_RAW} -e "create database ssb_${SCALE}_raw; create database ssb_${SCALE}_flat_orc;"
-	exec ${BEELINE_RAW} --hivevar LOCATION=/tmp/ssb/${SCALE} -f ssb-gen/ddl/text.sql
-	exec ${BEELINE_ORC} --hivevar SOURCE=ssb_${SCALE}_raw -f ssb-gen/ddl/orc_flat.sql
-	exec ${BEELINE_ORC} --hivevar SOURCE=ssb_${SCALE}_raw -f ssb-gen/ddl/analyze_flat.sql
+	exec ${BEELINE} -e "create database ssb_${SCALE}_raw; create database ssb_${SCALE}_flat_orc;"
+	echo "-------------------"
+	echo "   Define RAW Tables"
+	echo "-------------------"
+	exec ${BEELINE} --hivevar LOCATION=/tmp/ssb/${SCALE} --hivevar SCALE=${SCALE} -f ssb-gen/ddl/text.sql
+	echo "-------------------"
+	echo "   Build ORC Flat Tables"
+	echo "-------------------"
+	exec ${BEELINE} --hivevar SOURCE=ssb_${SCALE}_raw --hivevar SCALE=${SCALE} -f ssb-gen/ddl/orc_flat.sql
+	echo "-------------------"
+	echo "   Analyze ORC Flat Tables"
+	echo "-------------------"
+	exec ${BEELINE} --hivevar SOURCE=ssb_${SCALE}_raw --hivevar SCALE=${SCALE} -f ssb-gen/ddl/analyze_flat.sql
+	echo "-------------------"
+	echo "   Build ORC Tables"
+	echo "-------------------"
+	exec ${BEELINE} --hivevar SOURCE=ssb_${SCALE}_raw --hivevar SCALE=${SCALE} -f ssb-gen/ddl/orc.sql
+	echo "-------------------"
+	echo "   Analyze ORC Tables"
+	echo "-------------------"
+	exec ${BEELINE} --hivevar SOURCE=ssb_${SCALE}_raw --hivevar SCALE=${SCALE} -f ssb-gen/ddl/analyze.sql
 else
 	echo "SSB Data at scale ${SCALE}, already loaded."
 fi

@@ -1,3 +1,5 @@
+use ssb_${SCALE}_raw;
+
 drop table customer;
 drop table dates;
 drop table part;

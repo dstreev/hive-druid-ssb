@@ -1,3 +1,5 @@
+use ssb_${SCALE}_orc;
+
 drop table customer;
 drop table dates;
 drop table part;
