@@ -12,6 +12,7 @@ set hive.druid.passiveWaitTimeMs=180000;
 CREATE DATABASE IF NOT EXISTS druid_ssb_${SCALE}_${TYPE};
 USE druid_ssb_${SCALE}_${TYPE};
 
+DROP TABLE IF EXISTS ssb_druid;
 CREATE TABLE ssb_druid (
   `__time` timestamp,
   c_city ,
@@ -42,22 +43,22 @@ DROP TABLE IF EXISTS ${SOURCE}.consolidated;
 
 CREATE TABLE ${SOURCE}.consolidated (
   `__time` TIMESTAMP,
-  `_month` ,
-  c_city ,
-  c_nation ,
-  c_region ,
-  d_weeknuminyear ,
-  d_year ,
-  d_yearmonth ,
-  d_yearmonthnum ,
-  lo_discount ,
-  lo_quantity ,
-  p_brand1 ,
-  p_category ,
-  p_mfgr ,
-  s_city ,
-  s_nation ,
-  s_region ,
+  `_month` STRING,
+  c_city STRING,
+  c_nation STRING,
+  c_region STRING,
+  d_weeknuminyear STRING,
+  d_year STRING,
+  d_yearmonth STRING,
+  d_yearmonthnum STRING,
+  lo_discount STRING,
+  lo_quantity STRING,
+  p_brand1 STRING,
+  p_category STRING,
+  p_mfgr STRING,
+  s_city STRING,
+  s_nation STRING,
+  s_region STRING,
   lo_revenue double,
   discounted_price double,
   net_revenue double
@@ -96,24 +97,24 @@ where
 
 INSERT OVERWRITE TABLE ssb_druid
 SELECT
-`__time`,
-c_city ,
-c_nation ,
-c_region ,
-d_weeknuminyear ,
-d_year ,
-d_yearmonth ,
-d_yearmonthnum ,
-lo_discount ,
-lo_quantity ,
-p_brand1 ,
-p_category ,
-p_mfgr ,
-s_city ,
-s_nation ,
-s_region ,
-lo_revenue ,
-discounted_price ,
-net_revenue
+  `__time`,
+  c_city ,
+  c_nation ,
+  c_region ,
+  d_weeknuminyear ,
+  d_year ,
+  d_yearmonth ,
+  d_yearmonthnum ,
+  lo_discount ,
+  lo_quantity ,
+  p_brand1 ,
+  p_category ,
+  p_mfgr ,
+  s_city ,
+  s_nation ,
+  s_region ,
+  lo_revenue ,
+  discounted_price ,
+  net_revenue
 FROM
   ${SOURCE}.consolidated;
