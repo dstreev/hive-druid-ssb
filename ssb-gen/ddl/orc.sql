@@ -27,8 +27,9 @@ CREATE TABLE `lineorder`(
   `lo_supplycost` double,
   `lo_tax` double,
   `lo_commitdate` string,
-  `lo_shipmode` string)
-partitioned by(lo_orderdate bigint)
+  `lo_shipmode` string,
+  `lo_orderdate` string)
+partitioned by(yearmonth String)
 stored as orc
 ;
 
@@ -36,7 +37,7 @@ set hive.exec.dynamic.partition.mode=nonstrict;
 set hive.stats.autogather=true;
 set hive.optimize.sort.dynamic.partition=true;
 
-insert into lineorder partition(lo_orderdate)
+insert into lineorder partition(yearmonth)
 select
   `lo_orderkey`  ,
   `lo_linenumber` ,
@@ -54,5 +55,7 @@ select
   `lo_tax`  ,
   `lo_commitdate`  ,
   `lo_shipmode`,
-   lo_orderdate from
-${SOURCE}.lineorder;
+  `lo_orderdate`,
+   SUBSTR(lo_orderdate, 1, 6) from
+${SOURCE}.lineorder
+SORT BY lo_orderdate;
