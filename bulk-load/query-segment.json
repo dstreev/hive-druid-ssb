@@ -1,0 +1,5 @@
+{
+  "queryType":"segmentMetadata",
+  "dataSource":"ssb_druid_bulk",
+  "intervals":["1993-12-31/1994-02-01"]
+}

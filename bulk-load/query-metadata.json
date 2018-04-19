@@ -1,0 +1,4 @@
+{
+  "queryType" : "dataSourceMetadata",
+  "dataSource": "ssb_druid_bulk"
+}

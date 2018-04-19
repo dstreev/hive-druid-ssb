@@ -1,0 +1,38 @@
+{
+  "queryType": "timeseries",
+  "dataSource": "ssb_druid_bulk",
+  "granularity": "all",
+  "descending": "true",
+  "intervals": [
+    "1993-12-31/1994-02-01"
+  ],
+  "filter": {
+    "type": "and",
+    "fields": [
+      {
+        "type": "selector",
+        "dimension": "d_yearmonthnum",
+        "value": "199401"
+      },
+      {
+        "type": "bound",
+        "dimension": "lo_discount",
+        "lower": "4.0",
+        "upper": "6.0"
+      },
+      {
+        "type": "bound",
+        "dimension": "lo_quality",
+        "lower": 26.0,
+        "upper": 35.0
+      }
+    ]
+  },
+  "aggregations": [
+    {
+      "type": "longSum",
+      "name": "discounted_price",
+      "fieldName": "discounted_price"
+    }
+  ]
+}

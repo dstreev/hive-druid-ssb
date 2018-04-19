@@ -1,56 +1,105 @@
 {
-  "type" : "index_hadoop",
-  "spec" : {
-    "dataSchema" : {
-      "dataSource" : "ssb_druid_bulk",
-      "parser" : {
-        "type" : "hadoopyString",
-        "parseSpec" : {
-          "format" : "csv",
-          "timestampSpec" : {
-            "column" : "timestamp",
+  "type": "index_hadoop",
+  "spec": {
+    "dataSchema": {
+      "dataSource": "ssb_druid_bulk",
+      "parser": {
+        "type": "hadoopyString",
+        "parseSpec": {
+          "format": "csv",
+          "timestampSpec": {
+            "column": "timestamp",
             "format": "yyyy-MM-dd HH:mm:ss"
           },
-          "columns": ["timestamp","c_city","c_nation","c_region","d_weeknuminyear","d_year","d_yearmonth","d_yearmonthnum","lo_discount","lo_quantity",
-            "p_brand1","p_category","p_mfgr","s_city","s_nation","s_region","lo_revenue","discounted_price","net_revenue"],
-          "dimensionsSpec" : {
-            "dimensions": ["timestamp","c_city","c_nation","c_region","d_weeknuminyear","d_year","d_yearmonth","d_yearmonthnum","lo_discount","lo_quantity",
-                "p_brand1","p_category","p_mfgr","s_city","s_nation","s_region"]
+          "columns": [
+            "timestamp",
+            "c_city",
+            "c_nation",
+            "c_region",
+            "d_weeknuminyear",
+            "d_year",
+            "d_yearmonth",
+            "d_yearmonthnum",
+            "lo_discount",
+            "lo_quantity",
+            "p_brand1",
+            "p_category",
+            "p_mfgr",
+            "s_city",
+            "s_nation",
+            "s_region",
+            "lo_revenue",
+            "discounted_price",
+            "net_revenue"
+          ],
+          "dimensionsSpec": {
+            "dimensions": [
+              "timestamp",
+              "c_city",
+              "c_nation",
+              "c_region",
+              "d_weeknuminyear",
+              "d_year",
+              "d_yearmonth",
+              "d_yearmonthnum",
+              {
+                "type": "float",
+                "name": "lo_discount"
+              },
+              {
+                "type": "float",
+                "name": "lo_quantity"
+              },
+              "p_brand1",
+              "p_category",
+              "p_mfgr",
+              "s_city",
+              "s_nation",
+              "s_region"
+            ]
           }
         }
       },
-      "metricsSpec" : [
+      "metricsSpec": [
         {
-          "type" : "doubleSum",
-          "name" : "lo_revenue",
-          "fieldName" : "lo_revenue"
+          "type": "doubleSum",
+          "name": "lo_revenue",
+          "fieldName": "lo_revenue"
         },
         {
-          "type" : "doubleSum",
-          "name" : "discounted_price",
-          "fieldName" : "discounted_price"
+          "type": "doubleSum",
+          "name": "discounted_price",
+          "fieldName": "discounted_price"
         },
         {
-          "type" : "doubleSum",
-          "name" : "net_revenue",
-          "fieldName" : "net_revenue"
+          "type": "doubleSum",
+          "name": "net_revenue",
+          "fieldName": "net_revenue"
         }
       ],
-      "granularitySpec" : {
-        "type" : "uniform",
-        "segmentGranularity" : "MONTH",
-        "queryGranularity" : "DAY",
-        "intervals" : ["1992-01-01/1992-12-31","1993-01-01/1993-12-31","1994-01-01/1994-12-31","1995-01-01/1995-12-31","1996-01-01/1996-12-31","1997-01-01/1997-12-31","1998-01-01/1998-12-31"]
+      "granularitySpec": {
+        "type": "uniform",
+        "segmentGranularity": "MONTH",
+        "queryGranularity": "DAY",
+        "intervals": [
+          "1992-01-01/1992-12-31",
+          "1993-01-01/1993-12-31",
+          "1994-01-01/1994-12-31",
+          "1995-01-01/1995-12-31",
+          "1996-01-01/1996-12-31",
+          "1997-01-01/1997-12-31",
+          "1998-01-01/1998-12-31"
+        ]
       }
     },
-    "ioConfig" : {
-      "type" : "hadoop",
-      "inputSpec" : {
-        "type" : "static",
-        "paths" : "/apps/hive/warehouse/ssb_5_raw.db/ssb_druid_out"
+    "ioConfig": {
+      "type": "hadoop",
+      "inputSpec": {
+        "type": "static",
+        "paths": "/apps/hive/warehouse/ssb_5_raw.db/ssb_druid_out"
       }
     },
-    "tuningConfig" : {
+    "tuningConfig": {
       "type": "hadoop"
     }
   }

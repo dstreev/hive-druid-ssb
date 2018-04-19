@@ -1,0 +1,14 @@
+# Submit a Query to a Broker
+POST {{druid-broker-host-url}}/druid/v2/?pretty
+Content-Type: application/json
+
+< Q1.1.json
+
+###
+
+POST {{druid-broker-host-url}}/druid/v2/?pretty
+Content-Type: application/json
+
+< Q1.2.json
+
+###
