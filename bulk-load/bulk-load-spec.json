@@ -22,7 +22,7 @@
       "metricsSpec" : [
         {
           "type" : "doubleSum",
-          "name" : "revenue",
+          "name" : "lo_revenue",
           "fieldName" : "lo_revenue"
         },
         {
