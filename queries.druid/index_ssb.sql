@@ -4,8 +4,8 @@ set hive.druid.indexer.memory.rownum.max=100000;
 set hive.tez.container.size=1024;
 set hive.druid.passiveWaitTimeMs=180000;
 
-CREATE DATABASE IF NOT EXISTS druid_ssb;
-USE druid_ssb;
+CREATE DATABASE IF NOT EXISTS druid_ssb_${SCALE};
+USE druid_ssb_${SCALE};
 
 DROP TABLE IF EXISTS ssb_druid;
 CREATE TABLE ssb_druid
