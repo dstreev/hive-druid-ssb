@@ -1,0 +1,56 @@
+# Submit a Query to a Broker
+POST {{druid-broker-host-url}}/druid/v2/?pretty
+Content-Type: application/json
+
+< query-gb-01.json
+
+###
+
+# Submit a Query to a Broker
+POST {{druid-broker-host-url}}/druid/v2/?pretty
+Content-Type: application/json
+
+< query-gb-02.json
+
+###
+
+# Submit a Query to a Broker
+POST {{druid-broker-host-url}}/druid/v2/?pretty
+Content-Type: application/json
+
+< query-gb-03.json
+
+###
+
+
+# Submit a Query to a Broker
+POST {{druid-broker-host-url}}/druid/v2/?pretty
+Content-Type: application/json
+
+< query-topN-01.json
+
+###
+
+# Submit a Query to a Broker
+POST {{druid-broker-host-url}}/druid/v2/?pretty
+Content-Type: application/json
+
+< query-topN-02.json
+
+###
+
+# Submit a Query to a Broker
+POST {{druid-broker-host-url}}/druid/v2/?pretty
+Content-Type: application/json
+
+< query-topN-03.json
+
+###
+
+# Submit a Query to a Broker
+POST {{druid-broker-host-url}}/druid/v2/?pretty
+Content-Type: application/json
+
+< query-ts-01.json
+
+###

@@ -1,0 +1,10 @@
+# Post the bulk load spec to the overload
+POST {{druid-overlord-host-url}}/druid/indexer/v1/task
+Content-Type: application/json
+
+< bulk-load-spec.json
+
+###
+# Drop druid dataset. Currently just use the console interface.
+###
+

@@ -2,3 +2,4 @@
 .idea
 *.iml
 .druid-env.props
+rest-client.env.json

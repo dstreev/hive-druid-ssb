@@ -1,0 +1,43 @@
+{
+  "queryType": "groupBy",
+  "dataSource": "ssb_druid_bulk",
+  "intervals": [
+    "1992-01-15/1992-01-20"
+  ],
+  "granularity": "all",
+  "dimensions": [
+    "c_nation",
+    "c_region"
+  ],
+  "metric": "total_rev",
+  "limitSpec": {
+    "type": "default",
+    "limit": 5000,
+    "columns": [
+      "c_nation",
+      "c_region"
+    ]
+  },
+  "aggregations": [
+    {
+      "type": "longSum",
+      "name": "total_rev",
+      "fieldName": "net_revenue"
+    },
+    {
+      "type": "count",
+      "name": "count",
+      "fieldName": "net_count"
+    },
+    {
+      "type": "doubleMin",
+      "name": "min_rev",
+      "fieldName": "net_revenue"
+    },
+    {
+      "type": "doubleMax",
+      "name": "max_rev",
+      "fieldName": "net_revenue"
+    }
+  ]
+}

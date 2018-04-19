@@ -9,35 +9,14 @@ set hive.druid.indexer.memory.rownum.max=100000;
 -- set hive.tez.container.size=1024;
 set hive.druid.passiveWaitTimeMs=180000;
 
-CREATE DATABASE IF NOT EXISTS druid_ssb_${SCALE}_${TYPE};
-USE druid_ssb_${SCALE}_${TYPE};
+CREATE DATABASE IF NOT EXISTS druid_ssb;
+USE druid_ssb;
 
 DROP TABLE IF EXISTS ssb_druid;
-CREATE TABLE ssb_druid (
-  `__time` timestamp,
-  c_city STRING,
-  c_nation STRING,
-  c_region STRING,
-  d_weeknumuninyear STRING,
-  d_year STRING,
-  d_yearmonth STRING,
-  d_yearmonthnum STRING,
-  lo_discount STRING,
-  lo_quantity STRING,
-  p_brand1 STRING,
-  p_category STRING,
-  p_mfgr STRING,
-  s_city STRING,
-  s_nation STRING,
-  s_region STRING,
-  lo_revenue double,
-  discounted_price double,
-  net_revenue double
-)
+CREATE EXTERNAL TABLE ssb_druid
 STORED BY 'org.apache.hadoop.hive.druid.DruidStorageHandler'
 TBLPROPERTIES (
-  "druid.segment.granularity" = "MONTH",
-  "druid.query.granularity" = "DAY");
+  "druid.datasource" = "ssb_druid");
 
 DROP TABLE IF EXISTS ${SOURCE}.consolidated;
 
@@ -95,6 +74,7 @@ where
   lo_orderdate = d_datekey and lo_partkey = p_partkey
   and lo_suppkey = s_suppkey and lo_custkey = c_custkey;
 
+set mapred.reduce.tasks = 10;
 INSERT OVERWRITE TABLE ssb_druid
 SELECT
   `__time`,
