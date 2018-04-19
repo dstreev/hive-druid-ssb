@@ -1,69 +1,36 @@
--- set hive.druid.metadata.username=${DRUID_META_USERNAME};
--- set hive.druid.metadata.password=${DRUID_META_PASSWORD};
--- set hive.druid.metadata.uri=jdbc:mysql://${DRUID_META_HOST}/druid;
+
 set hive.druid.indexer.partition.size.max=1000000;
 set hive.druid.indexer.memory.rownum.max=100000;
--- set hive.druid.broker.address.default=${DRUID_BROKER_HOST}:8082;
--- set hive.druid.coordinator.address.default=${DRUID_COORD_HOST}:8081;
--- set hive.druid.storage.storageDirectory=/apps/hive/warehouse;
--- set hive.tez.container.size=1024;
+set hive.tez.container.size=1024;
 set hive.druid.passiveWaitTimeMs=180000;
 
 CREATE DATABASE IF NOT EXISTS druid_ssb;
 USE druid_ssb;
 
 DROP TABLE IF EXISTS ssb_druid;
-CREATE EXTERNAL TABLE ssb_druid
+CREATE TABLE ssb_druid
 STORED BY 'org.apache.hadoop.hive.druid.DruidStorageHandler'
 TBLPROPERTIES (
-  "druid.datasource" = "ssb_druid");
-
-DROP TABLE IF EXISTS ${SOURCE}.consolidated;
-
-CREATE TABLE ${SOURCE}.consolidated (
-  `__time` TIMESTAMP,
-  `_month` STRING,
-  c_city STRING,
-  c_nation STRING,
-  c_region STRING,
-  d_weeknuminyear STRING,
-  d_year STRING,
-  d_yearmonth STRING,
-  d_yearmonthnum STRING,
-  lo_discount STRING,
-  lo_quantity STRING,
-  p_brand1 STRING,
-  p_category STRING,
-  p_mfgr STRING,
-  s_city STRING,
-  s_nation STRING,
-  s_region STRING,
-  lo_revenue double,
-  discounted_price double,
-  net_revenue double
-)
-CLUSTERED BY (`_month`) SORTED BY (`__time` asc) INTO 10 BUCKETS
-STORED AS ORC;
-
-INSERT OVERWRITE TABLE ${SOURCE}.consolidated
+  "druid.segment.granularity" = "MONTH",
+  "druid.query.granularity" = "DAY")
+AS
 SELECT
-  cast(CONCAT(d_year,'-',d_monthnuminyear,'-',d_daynuminmonth) as timestamp) as `__time`,
-  cast(CONCAT(d_year,'-',d_monthnuminyear) as STRING) as `_month`,
-  cast(c_city as STRING) c_city,
-  cast(c_nation as STRING) c_nation,
-  cast(c_region as STRING) c_region,
-  cast(d_weeknuminyear as STRING) d_weeknuminyear,
-  cast(d_year as STRING) d_year,
-  cast(d_yearmonth as STRING) d_yearmonth,
-  cast(d_yearmonthnum as STRING) d_yearmonthnum,
-  cast(lo_discount as STRING) lo_discount,
-  cast(lo_quantity as STRING) lo_quantity,
-  cast(p_brand1 as STRING) p_brand1,
-  cast(p_category as STRING) p_category,
-  cast(p_mfgr as STRING) p_mfgr,
-  cast(s_city as STRING) s_city,
-  cast(s_nation as STRING) s_nation,
-  cast(s_region as STRING) s_region,
+  cast(d_year || '-' || d_monthnuminyear || '-' || d_daynuminmonth as timestamp) as `__time`,
+  cast(c_city as string) c_city,
+  cast(c_nation as string) c_nation,
+  cast(c_region as string) c_region,
+  cast(d_weeknuminyear as string) d_weeknuminyear,
+  cast(d_year as string) d_year,
+  cast(d_yearmonth as string) d_yearmonth,
+  cast(d_yearmonthnum as string) d_yearmonthnum,
+  cast(lo_discount as string) lo_discount,
+  cast(lo_quantity as string) lo_quantity,
+  cast(p_brand1 as string) p_brand1,
+  cast(p_category as string) p_category,
+  cast(p_mfgr as string) p_mfgr,
+  cast(s_city as string) s_city,
+  cast(s_nation as string) s_nation,
+  cast(s_region as string) s_region,
   lo_revenue,
   lo_extendedprice * lo_discount discounted_price,
   lo_revenue - lo_supplycost net_revenue
@@ -73,28 +40,3 @@ FROM
 where
   lo_orderdate = d_datekey and lo_partkey = p_partkey
   and lo_suppkey = s_suppkey and lo_custkey = c_custkey;
-
-set mapred.reduce.tasks = 10;
-INSERT OVERWRITE TABLE ssb_druid
-SELECT
-  `__time`,
-  c_city ,
-  c_nation ,
-  c_region ,
-  d_weeknuminyear ,
-  d_year ,
-  d_yearmonth ,
-  d_yearmonthnum ,
-  lo_discount ,
-  lo_quantity ,
-  p_brand1 ,
-  p_category ,
-  p_mfgr ,
-  s_city ,
-  s_nation ,
-  s_region ,
-  lo_revenue ,
-  discounted_price ,
-  net_revenue
-FROM
-  ${SOURCE}.consolidated;

@@ -22,6 +22,11 @@ echo "   Analyze ORC Flat Tables"
 echo "-------------------"
 ${BEELINE} --hivevar SOURCE=ssb_${SCALE}_raw --hivevar SCALE=${SCALE} -f ssb-gen/ddl/analyze_flat.sql
 
+echo "-------------------"
+echo "   Build Bulk Output"
+echo "-------------------"
+${BEELINE} --hivevar SOURCE=ssb_${SCALE}_flat_orc --hivevar SCALE=${SCALE} -f ssb-gen/ddl/build_bulk_output.sql
+
 # Process currently ends in issues with creating Druid Table.
 # echo "-------------------"
 # echo "   Build ORC Tables"

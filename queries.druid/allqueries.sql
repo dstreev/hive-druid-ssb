@@ -1,4 +1,4 @@
-USE druid_ssb_${SCALE}_${TYPE};
+USE druid_ssb_${SCALE};
 
 select
   sum(discounted_price)
