@@ -10,22 +10,22 @@ ${BEELINE} -e "create database if not exists ssb_${SCALE}_raw; create database i
 echo "-------------------"
 echo "   Define RAW Tables"
 echo "-------------------"
-${BEELINE} --hivevar LOCATION=/tmp/ssb/${SCALE} --hivevar SCALE=${SCALE} -f ssb-gen/ddl/text.sql
+#${BEELINE} --hivevar LOCATION=/tmp/ssb/${SCALE} --hivevar SCALE=${SCALE} -f ssb-gen/ddl/text.sql
 
 echo "-------------------"
 echo "   Build ORC Flat Tables"
 echo "-------------------"
-${BEELINE} --hivevar SOURCE=ssb_${SCALE}_raw --hivevar SCALE=${SCALE} -f ssb-gen/ddl/orc_flat.sql
+#${BEELINE} --hivevar SOURCE=ssb_${SCALE}_raw --hivevar SCALE=${SCALE} -f ssb-gen/ddl/orc_flat.sql
 
 echo "-------------------"
 echo "   Analyze ORC Flat Tables"
 echo "-------------------"
-${BEELINE} --hivevar SOURCE=ssb_${SCALE}_raw --hivevar SCALE=${SCALE} -f ssb-gen/ddl/analyze_flat.sql
+#${BEELINE} --hivevar SOURCE=ssb_${SCALE}_raw --hivevar SCALE=${SCALE} -f ssb-gen/ddl/analyze_flat.sql
 
 echo "-------------------"
 echo "   Build Bulk Output"
 echo "-------------------"
-${BEELINE} --hivevar SOURCE=ssb_${SCALE}_flat_orc --hivevar SCALE=${SCALE} -f ssb-gen/ddl/build_bulk_output.sql
+${BEELINE} --hivevar SOURCE=ssb_${SCALE}_flat_orc --hivevar SCALE=${SCALE} -f queries.druid/build_bulk_output.sql
 
 # Process currently ends in issues with creating Druid Table.
 # echo "-------------------"
