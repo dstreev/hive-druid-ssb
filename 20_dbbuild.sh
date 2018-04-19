@@ -23,9 +23,9 @@ echo "-------------------"
 #${BEELINE} --hivevar SOURCE=ssb_${SCALE}_raw --hivevar SCALE=${SCALE} -f ssb-gen/ddl/analyze_flat.sql
 
 echo "-------------------"
-echo "   Build Bulk Output"
+echo "   Build Consolidated Record Set"
 echo "-------------------"
-${BEELINE} --hivevar SOURCE=ssb_${SCALE}_flat_orc --hivevar SCALE=${SCALE} -f queries.druid/build_bulk_output.sql
+${BEELINE} --hivevar SOURCE=ssb_${SCALE}_flat_orc --hivevar SCALE=${SCALE} -f queries.druid/build_consolidated_output.sql
 
 # Process currently ends in issues with creating Druid Table.
 # echo "-------------------"
